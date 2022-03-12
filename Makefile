@@ -22,6 +22,7 @@ eunit:
 	erlc -o test_ebin test/*.erl;
 	erl -pa ebin -pa test_ebin -sname test -run basic_eunit start -setcookie test_cookie -config config/sys
 release:
-	rm -rf  *~ */*~  test_ebin/* erl_cra*;
+	rm -rf  *~ */*~  test_ebin erl_cra*;
+	mkdir test_ebin;
 	erlc -o test_ebin test/*.erl;
-	erl -pa test_ebin -run release start config_app ../catalog/catalog.specs
+	erl -pa test_ebin -run release start service_app ../catalog/catalog.specs
