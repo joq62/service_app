@@ -69,7 +69,7 @@ load(AppId,Vsn,GitPath,ServiceDir)->
 %%          {noreply, State, Timeout} |
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
-unload(AppId,Vsn,AppDir)->
+unload(AppId,_Vsn,AppDir)->
     App=list_to_atom(AppId),
     application:unload(App),
     os:cmd("rm -rf "++AppDir),

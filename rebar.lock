@@ -1,4 +1,1 @@
-[{<<"sd_lib">>,
-  {git,"git://github.com/joq62/sd_lib.git",
-       {ref,"dcd09a5e97e1ffe0a11dedfad8082ebe6158b9f5"}},
-  0}].
+[].
