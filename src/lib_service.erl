@@ -55,12 +55,19 @@ load(AppId,Vsn,GitPath,ServiceDir)->
     os:cmd("mv  "++TempDir++"/*"++" "++AppDir),
     os:cmd("rm -rf "++TempDir),
     Ebin=filename:join(AppDir,"ebin"),
-    case code:add_patha(Ebin) of
-	true->
-	    {ok,AppDir};
-	Err ->
-	    {error,[Err]}
-    end.
+    Reply=case filelib:is_dir(Ebin) of
+	      true->
+		  case code:add_patha(Ebin) of
+		      true->
+			  {ok,AppDir};
+		      Err ->
+			  {error,[Err]}
+		  end;
+	      false ->
+		  {error,[no_dir_created,?MODULE,?LINE]}
+	  end,
+    timer:sleep(3000),
+    Reply.
 
 %% --------------------------------------------------------------------
 %% Function: handle_info/2
