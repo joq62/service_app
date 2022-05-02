@@ -66,7 +66,6 @@ load(AppId,Vsn,GitPath,ServiceDir)->
 	      false ->
 		  {error,[no_dir_created,?MODULE,?LINE]}
 	  end,
-    timer:sleep(3000),
     Reply.
 
 %% --------------------------------------------------------------------
