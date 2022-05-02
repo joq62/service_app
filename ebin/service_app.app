@@ -1,6 +1,6 @@
 {application,service_app,
              [{description,"An OTP application"},
-              {vsn,"0.1.0"},
+              {vsn,"0.1.1"},
               {registered,[]},
               {mod,{service_app_app,[]}},
               {applications,[kernel,stdlib]},
