@@ -23,20 +23,24 @@
 %% Returns: List({HostId,Ip,SshPort,Uid,Pwd}
 %% --------------------------------------------------------------------
 start()->
+     {ok,HostName}=net:gethostname(),
+    ServiceDir=HostName++".service_dir", 
+    os:cmd("rm -rf "++ServiceDir),
+  
     ok=application:start(service_app),
     pong=service:ping(),
-
+ 
     ok=load_test(),
     ok=start_test(),
     pong=mydivi:ping(),
     
     
     {error,[{error,{already_started,divi_app}}]}=start_test(),
-    {error,[already_loaded]}=load_test(),
+    ok=load_test2(),
     ok=stop_test(),
     {error,[not_started]}=stop_test(),
     ok=unload_test(),
-
+ 
     ok=load_test(),
     ok=start_test(),
     pong=mydivi:ping(),
@@ -78,7 +82,28 @@ load_test()->
     AppId="divi_app",
     Vsn="1.0.0",
     GitPath="https://github.com/joq62/divi_app.git",
-    service:load(AppId,Vsn,GitPath).
+    ok=service:load(AppId,Vsn,GitPath),
+    AppId1="web_c100",
+    Vsn1="0.1.0",
+    GitPath1="https://github.com/joq62/web_c100.git",
+    ok=service:load(AppId1,Vsn1,GitPath1),
+    {ok,HostName}=net:gethostname(),
+    ServiceDir=HostName++".service_dir",
+    {ok,["web_c100_0.1.0","divi_app_1.0.0"]}=file:list_dir(ServiceDir),
+    ok.
+load_test2()->
+    AppId="divi_app",
+    Vsn="1.0.0",
+    GitPath="https://github.com/joq62/divi_app.git",
+    {error,[already_loaded]}=service:load(AppId,Vsn,GitPath),
+    AppId1="web_c100",
+    Vsn1="0.1.0",
+    GitPath1="https://github.com/joq62/web_c100.git",
+    {error,[already_loaded]}=service:load(AppId1,Vsn1,GitPath1),
+    {ok,HostName}=net:gethostname(),
+    ServiceDir=HostName++".service_dir",
+    {ok,["web_c100_0.1.0","divi_app_1.0.0"]}=file:list_dir(ServiceDir),
+    ok.
 
 
 

@@ -171,9 +171,15 @@ ping()->
 %% --------------------------------------------------------------------
 init([]) ->
     {ok,HostName}=net:gethostname(),
-    ServiceDir=HostName++".service_dir",  
+    ServiceDir=HostName++".service_dir", 
+    case filelib:is_dir(ServiceDir) of
+	false->
+	    ok=file:make_dir(ServiceDir);
+	true->
+	    ok
+    end,
  %   os:cmd("rm -rf "++ServiceDir),
- %   ok=file:make_dir(ServiceDir),
+ %   
     {ok, #state{service_dir=ServiceDir,
 		loaded=[],
 		started=[]}
